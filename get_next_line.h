@@ -12,6 +12,13 @@
 
 #include <stdlib.h>
 
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 42
+#endif
+
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+
 void	*ft_calloc(size_t count, size_t size);
 
 size_t	ft_strlen(const char *s);

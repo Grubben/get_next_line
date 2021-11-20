@@ -12,6 +12,24 @@
 
 #include "get_next_line.h"
 
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+
+	if (dstsize > 0)
+	{
+		i = 0;
+		while (i < dstsize - 1)
+		{
+			if (src[i] == '\0')
+				break ;
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (ft_strlen(src));
+}
 
 void	*ft_calloc(size_t count, size_t size)
 {
