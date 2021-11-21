@@ -10,12 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
-
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
@@ -25,26 +19,27 @@ char	*get_next_line(int fd)
 	char		*new;
 	size_t		nlidx;
 
-	nlpos = strchr(lasline, '\n');
+	nlpos = ft_strchr(lasline, '\n');
 	if (lasline[0] == 0)
 	{
 		if (read(fd, lasline, BUFFER_SIZE) == -1)
 				return (NULL);
 		if (nlpos == NULL)
 		{
-			new = strdup(lasline);
-			bzero(lasline, BUFFER_SIZE + 1);
+			new = ft_strdup(lasline);
+			ft_bzero(lasline, BUFFER_SIZE + 1);
 			return (new);			
 		}
 	}
 	nlidx = nlpos - lasline;
 	new = ft_substr(lasline, 0, nlidx + 1);
-	memmove(lasline, lasline + nlidx + 1, BUFFER_SIZE - 1 - nlidx);
-	bzero(lasline + BUFFER_SIZE - 1 - nlidx, nlidx + 1);
+	ft_memmove(lasline, lasline + nlidx + 1, BUFFER_SIZE - 1 - nlidx);
+	ft_bzero(lasline + BUFFER_SIZE - 1 - nlidx, nlidx + 1);
 	return (new);
 }
 
-
+#include <stdio.h>
+#include <fcntl.h>
 int	main(void)
 {
 	int		fd;

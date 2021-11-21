@@ -93,6 +93,16 @@ char	*ft_strdup(const char *s1)
 	ptr[i] = '\0';
 	return (ptr);
 }
+
+void	ft_bzero(void *s, size_t n)
+{
+	while (n != 0)
+	{
+		((char *)s)[n - 1] = 0;
+		n--;
+	}
+}
+
 /*	SUBSTR	*/
 static int	ft_smin(long long a, long long b)
 {
@@ -142,3 +152,28 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ptr);
 }
 /*	SUBSTR	*/
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	size_t	i;
+
+	if (src < dst)
+	{
+		i = len;
+		while (i > 0)
+		{
+			((char *)dst)[i - 1] = ((char *)src)[i - 1];
+			i--;
+		}
+		return ((void *)dst);
+	}
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		((char *)dst)[i] = ((char *)src)[i];
+		i++;
+	}
+	return (dst);
+}

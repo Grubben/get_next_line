@@ -10,21 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <stdlib.h>
 
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 42
 #endif
 
+size_t ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void   *ft_calloc(size_t count, size_t size);
 
-void	*ft_calloc(size_t count, size_t size);
-
-size_t	ft_strlen(const char *s);
+size_t ft_strlen(const char *s);
 
 char	*ft_strchr(const char *s, int c);
 
 char	*ft_strdup(const char *s1);
 
+void	ft_bzero(void *s, size_t n);
+
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+
+void	*ft_memmove(void *dst, const void *src, size_t len);
+
