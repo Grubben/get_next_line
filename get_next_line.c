@@ -20,36 +20,51 @@
 
 char	*get_next_line(int fd)
 {
-	static char	lasline[BUFFER_SIZE * 2];	// needs to be double because we're going to join the new with the potentially
-	char		*nlpos;						// very large old
+	static char	lasline[BUFFER_SIZE + 1];
+	char		*nlpos;
+	char		*new;
+	size_t		nlidx;
 
-	lasline[BUFFER_SIZE*2-1] = '\0';
-	if (read(fd, lasline, BUFFER_SIZE) != -1)
+	nlpos = strchr(lasline, '\n');
+	if (lasline[0] == 0)
 	{
-		nlpos = ft_strchr(lasline, '\n');
-		if (nlpos == NULL)
-			return (ft_strdup(lasline));
-		else
-		{
-			if (!ft_strlcpy(lasline, nlpos, lasline + strlen(lasline) - nlpos))
+		if (read(fd, lasline, BUFFER_SIZE) == -1)
 				return (NULL);
-			return (ft_substr(lasline, 0, nlpos-lasline)); // 3 does not include '\0' -> would make it 4 but substr might already do that for us
-		
+		if (nlpos == NULL)
+		{
+			new = strdup(lasline);
+			bzero(lasline, BUFFER_SIZE + 1);
+			return (new);			
 		}
 	}
-	return (NULL);
+	nlidx = nlpos - lasline;
+	new = ft_substr(lasline, 0, nlidx + 1);
+	memmove(lasline, lasline + nlidx + 1, BUFFER_SIZE - 1 - nlidx);
+	bzero(lasline + BUFFER_SIZE - 1 - nlidx, nlidx + 1);
+	return (new);
 }
 
 
 int	main(void)
 {
 	int		fd;
+	//char	lasline[42];
 	
 	fd = open("trash.txt", O_RDONLY);
 
-	printf("%d\n", BUFFER_SIZE);
-	printf("%s\n", get_next_line(fd));
-	//printf("%s\n", get_next_line(fd));
+	//printf("%d\n", BUFFER_SIZE);
+
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+
+	/*
+	while (get_next_line(fd) != NULL)
+		printf("\n||\n");
+	*/
+	
+
 
 	close(fd);
 
