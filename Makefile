@@ -25,7 +25,7 @@ clean		:
 				$(RM) $(OBJS)
 
 fclean		: clean
-				$(RM) $(NAME) $(lib)
+				$(RM) *.out* $(lib) 
 
 re			: fclean run
 
