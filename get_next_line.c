@@ -6,7 +6,7 @@
 /*   By: amaria-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 15:33:23 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/11/22 18:42:36 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/11/25 15:56:04 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ char	*get_next_line(int fd)
 	if (lasline[0] == 0)
 	{
 		reret = read(fd, lasline, BUFFER_SIZE); 
+		nlpos = ft_strchr(lasline, '\n');
+		if (lasline[0] == 0)
+			return (NULL);
 		if (reret == -1)
 				return (NULL);
 		if (nlpos == NULL)
@@ -35,33 +38,49 @@ char	*get_next_line(int fd)
 			return (new);			
 		}
 	}
-	nlidx = nlpos - lasline;
-	new = ft_substr(lasline, 0, nlidx + 1);
-	ft_memmove(lasline, lasline + nlidx + 1, BUFFER_SIZE - 1 - nlidx);
-	ft_bzero(lasline + BUFFER_SIZE - 1 - nlidx, nlidx + 1);
+	if (nlpos == NULL)
+	{
+		new = ft_strdup(lasline);
+		ft_bzero(lasline, BUFFER_SIZE + 1);
+	}
+	else
+	{
+		nlidx = nlpos - lasline;
+		new = ft_substr(lasline, 0, nlidx + 1);
+		ft_memmove(lasline, lasline + nlidx + 1, BUFFER_SIZE - 1 - nlidx);
+		ft_bzero(lasline + BUFFER_SIZE - 1 - nlidx, nlidx + 1);
+	}
 	return (new);
 }
 
 /*
 #include <stdio.h>
 #include <fcntl.h>
+#include <string.h>
 int	main(void)
 {
 	int		fd;
-	//char	lasline[42];
-	
+	char	*reret;
+
 	fd = open("trash.txt", O_RDONLY);
 
 	//printf("%d\n", BUFFER_SIZE);
 
-	printf("%s", get_next_line(fd));
+	//reret = get_next_line(fd);
+	//printf("%i", reret[0]);
+	//printf("%i", reret[1]);
 	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 
-	//while (get_next_line(fd) != NULL)
-	//	printf("\n||\n");
-
+	while (1)
+	{
+		reret = get_next_line(fd);
+		if (reret == NULL)
+			break;
+		printf("%s||", reret);
+	}
+	//printf("\n%d\n", !strcmp("0", "01"));
 
 	close(fd);
 
