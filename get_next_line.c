@@ -34,14 +34,14 @@ char	*get_next_line(int fd)
 		if (nlpos == NULL)
 		{
 			new = ft_strdup(lasline);
-			ft_bzero(lasline, BUFFER_SIZE + 1);	// don't have to rewrite all. Maybe just strlen(new)
+			ft_bzero(lasline, buffer_size + 1);	// don't have to rewrite all. Maybe just strlen(new)
 			return (new);			
 		}
 	}
 	if (nlpos == NULL)
 	{
 		new = ft_strdup(lasline);
-		ft_bzero(lasline, BUFFER_SIZE + 1);
+		ft_bzero(lasline, BUFFER_SIZE + 1); // don't have to rewrite all. Maybe just strlen(new)
 	}
 	else
 	{
