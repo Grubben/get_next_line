@@ -6,7 +6,7 @@ OBJS		= $(SRCS:.c=.o)
 RM			= rm -rf
 
 CC 			= gcc
-CFLAGS		= -Wall -Wextra -Werror -D BUFFER_SIZE=5 -g
+CFLAGS		= -Wall -Wextra -Werror -D BUFFER_SIZE=1 -g
 
 
 lib			= aux-funcs.a
@@ -14,7 +14,12 @@ NAME		= a.out
 
 run			: $(OBJS)
 				$(CC) $(CFLAGS) -o $(NAME) get_next_line.c $(OBJS)
+				./a.out
 
+compare		: run
+				@$(CC) $(CFLAGS) -o $(NAME) 42-get-next-line/get_next_line.c $(OBJS)
+				./a.out
+				
 $(lib)		: $(OBJS)
 				ar rs aux-funcs.a $(OBJS)
 

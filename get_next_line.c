@@ -34,7 +34,7 @@ char	*get_next_line(int fd)
 		if (nlpos == NULL)
 		{
 			new = ft_strdup(lasline);
-			ft_bzero(lasline, BUFFER_SIZE + 1);
+			ft_bzero(lasline, BUFFER_SIZE + 1);	// don't have to rewrite all. Maybe just strlen(new)
 			return (new);			
 		}
 	}
@@ -53,37 +53,3 @@ char	*get_next_line(int fd)
 	return (new);
 }
 
-/*
-#include <stdio.h>
-#include <fcntl.h>
-#include <string.h>
-int	main(void)
-{
-	int		fd;
-	char	*reret;
-
-	fd = open("trash.txt", O_RDONLY);
-
-	//printf("%d\n", BUFFER_SIZE);
-
-	//reret = get_next_line(fd);
-	//printf("%i", reret[0]);
-	//printf("%i", reret[1]);
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
-
-	while (1)
-	{
-		reret = get_next_line(fd);
-		if (reret == NULL)
-			break;
-		printf("%s||", reret);
-	}
-	//printf("\n%d\n", !strcmp("0", "01"));
-
-	close(fd);
-
-	return (0);
-}
-*/
