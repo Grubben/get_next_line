@@ -31,20 +31,15 @@ char	*get_next_line(int fd)
 	while (nlpos == NULL)
 	{
 		reret = read(fd, tmp, BUFFER_SIZE);	
-		if (reret == -1)
+		if (reret <= -1)
 			return (NULL);
-		nlpos = ft_strchr(tmp, '\n');
+		// read makes sure this happens by itself by adding weird stuff to last read!!!!!!!!!!
 		if (reret == 0)
-		{
-			if (nlpos == NULL)
-			{
-				free(line);
-				return (ft_strjoin(line, tmp));
-			}
-			else
-				break ;
-		}
-		tmp[reret] = '\0';
+			return (line);
+		tmp[reret] = '\0';	// The Golden Trick
+		nlpos = ft_strchr(tmp, '\n');
+		if (nlpos != NULL)
+			break ;
 		new = ft_strjoin(line, tmp);	// not sure what happens if line is empty
 		free(line);
 		line = new;
