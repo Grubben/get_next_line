@@ -177,3 +177,20 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	}
 	return (dst);
 }
+
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*ptr;
+
+	if (!s1)
+		return (NULL);
+	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!ptr)
+		return (NULL);
+	ft_memmove(ptr, s1, ft_strlen(s1));
+	ft_memmove(ptr + ft_strlen(s1), s2, ft_strlen(s2));
+	ptr[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	return (ptr);
+}
+
