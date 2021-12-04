@@ -16,9 +16,13 @@ run			: $(OBJS)
 				$(CC) $(CFLAGS) -o $(NAME) get_next_line.c $(OBJS)
 				./a.out
 
-compare		: run
-				@$(CC) $(CFLAGS) -o $(NAME) 42-get-next-line/get_next_line.c $(OBJS)
-				./a.out
+switch		:
+				mv get_next_line.c get_next_lineOLD.c
+				mv overhaul.c get_next_line.c
+
+unswitch	:
+				mv get_next_line.c overhaul.c
+				mv get_next_lineOLD.c get_next_line.c
 				
 $(lib)		: $(OBJS)
 				ar rs aux-funcs.a $(OBJS)

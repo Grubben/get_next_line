@@ -13,21 +13,38 @@ char	*get_next_line(int fd)
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE < 1)
 		return (NULL);
 
-	if (line != NULL && ft_strchr(line, '\n') != NULL)	// NOTE it's done on line not tmp
+	if (line == NULL)
 	{
-		nlpos = ft_strchr(line, '\n'); 
+		line = calloc(BUFFER_SIZE + 1, sizeof(char));
+		reret = read(fd, line, BUFFER_SIZE);
+		if (reret <= -1)
+			return (NULL);
+		else if (reret == 0)
+			return (NULL);
+		//else
+		//	return (get_next_line(fd));
+	}
+
+	nlpos = ft_strchr(line, '\n'); 
+	if (nlpos != NULL)	// NOTE it's done on line not tmp
+	{
+		if ((size_t)(nlpos - line) == ft_strlen(line) - 1)	// if it's the last character
+		{
+			new = ft_strdup(line);	//	This can also be expressed as a ft_substr
+			free(line);
+			line = NULL;
+			return (new);
+		}
 		new = ft_substr(tmp, 0, nlpos - tmp + 1 );
 		free(line);
 		line = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
 		return (new);
 	}
 
-	// line can be == NULL or no '\n' in line
 
-	if (line == NULL)
-		line = malloc(BUFFER_SIZE + 1);	// if there's stuff inside it'll get deleted
+	// No '\n' in line
 
-	nlpos = NULL;
+	nlpos = ft_strchr(tmp, '\n');
 	while (nlpos == NULL)
 	{
 		reret = read(fd, tmp, BUFFER_SIZE);	
@@ -46,8 +63,16 @@ char	*get_next_line(int fd)
 	}
 	// return (line) up till '\n'
 	// what if nlpos is the last char of line!!!
-	other = ft_substr(tmp, 0, nlpos - tmp + 1 );
-	new = ft_strjoin(line, other);	// string up to n' including '\n'
+	if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if it's the last character
+	{
+		new = ft_strjoin(line, tmp);
+		free(line);
+		line = NULL;
+		return (new);
+	}
+	other = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'	
+	new = ft_strjoin(line, other);	// line + string up to n' including '\n'
+	free(other);
 	free(line);
 	line = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now. It's a max anyway
 
