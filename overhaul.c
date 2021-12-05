@@ -20,7 +20,11 @@ char	*get_next_line(int fd)
 		if (reret <= -1)
 			return (NULL);
 		else if (reret == 0)
+		{
+			free(line);
+			line = NULL;
 			return (NULL);
+		}
 		//else
 		//	return (get_next_line(fd));
 	}
@@ -35,9 +39,10 @@ char	*get_next_line(int fd)
 			line = NULL;
 			return (new);
 		}
-		new = ft_substr(tmp, 0, nlpos - tmp + 1 );
-		free(line);
-		line = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
+		other = line;
+		new = ft_substr(line, 0, nlpos - line + 1 );
+		line = ft_substr(other, nlpos - other + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
+		free(other);
 		return (new);
 	}
 
@@ -52,7 +57,12 @@ char	*get_next_line(int fd)
 			return (NULL);
 		// read makes sure this happens by itself by adding weird stuff to last read!!!!!!!!!!
 		if (reret == 0)
-			return (line);
+		{
+			new = ft_strdup(line);	//	This can also be expressed as a ft_substr
+			free(line);
+			line = NULL;
+			return (new);
+		}
 		tmp[reret] = '\0';	// The Golden Trick
 		nlpos = ft_strchr(tmp, '\n');
 		if (nlpos != NULL)
