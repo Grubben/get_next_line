@@ -1,55 +1,90 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amaria-d <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 15:33:23 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/11/25 15:56:04 by amaria-d         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
 {
-	static char	lasline[BUFFER_SIZE + 1];
+	static char	*line[MAX_FD];
 	char		*nlpos;
+	char		tmp[BUFFER_SIZE + 1];
 	char		*new;
-	size_t		nlidx;
+	char		*other;
 	ssize_t		reret;
 
+	// Input error checker
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE < 1)
 		return (NULL);
-	nlpos = ft_strchr(lasline, '\n');
-	if (lasline[0] == 0)
+
+	if (line[fd] == NULL)
 	{
-		reret = read(fd, lasline, BUFFER_SIZE); 
-		nlpos = ft_strchr(lasline, '\n');
-		if (lasline[0] == 0)
+		line[fd] = calloc(BUFFER_SIZE + 1, sizeof(char));
+		reret = read(fd, line[fd], BUFFER_SIZE);
+		if (reret <= -1)
 			return (NULL);
-		if (reret == -1)
-				return (NULL);
-		if (nlpos == NULL)
+		else if (reret == 0)
 		{
-			new = ft_strdup(lasline);
-			ft_bzero(lasline, buffer_size + 1);	// don't have to rewrite all. Maybe just strlen(new)
-			return (new);			
+			free(line[fd]);
+			line[fd] = NULL;
+			return (NULL);
 		}
+		//else
+		//	return (get_next_line[fd](fd));
 	}
-	if (nlpos == NULL)
+
+	nlpos = ft_strchr(line[fd], '\n'); 
+	if (nlpos != NULL)	// NOTE it's done on line[fd] not tmp
 	{
-		new = ft_strdup(lasline);
-		ft_bzero(lasline, BUFFER_SIZE + 1); // don't have to rewrite all. Maybe just strlen(new)
+		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)	// if it's the last character
+		{
+			new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
+			free(line[fd]);
+			line[fd] = NULL;
+			return (new);
+		}
+		other = line[fd];
+		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1 );
+		line[fd] = ft_substr(other, nlpos - other + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
+		free(other);
+		return (new);
 	}
-	else
+
+
+	// No '\n' in line[fd]
+
+	nlpos = ft_strchr(tmp, '\n');
+	while (nlpos == NULL)
 	{
-		nlidx = nlpos - lasline;
-		new = ft_substr(lasline, 0, nlidx + 1);
-		ft_memmove(lasline, lasline + nlidx + 1, BUFFER_SIZE - 1 - nlidx);
-		ft_bzero(lasline + BUFFER_SIZE - 1 - nlidx, nlidx + 1);
+		reret = read(fd, tmp, BUFFER_SIZE);	
+		if (reret <= -1)
+			return (NULL);
+		// read makes sure this happens by itself by adding weird stuff to last read!!!!!!!!!!
+		if (reret == 0)
+		{
+			new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
+			free(line[fd]);
+			line[fd] = NULL;
+			return (new);
+		}
+		tmp[reret] = '\0';	// The Golden Trick
+		nlpos = ft_strchr(tmp, '\n');
+		if (nlpos != NULL)
+			break ;
+		new = ft_strjoin(line[fd], tmp);	// not sure what happens if line[fd] is empty
+		free(line[fd]);
+		line[fd] = new;
 	}
+	// return (line[fd]) up till '\n'
+	// what if nlpos is the last char of line[fd]!!!
+	if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if it's the last character
+	{
+		new = ft_strjoin(line[fd], tmp);
+		free(line[fd]);
+		line[fd] = NULL;
+		return (new);
+	}
+	other = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'	
+	new = ft_strjoin(line[fd], other);	// line[fd] + string up to n' including '\n'
+	free(other);
+	free(line[fd]);
+	line[fd] = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now. It's a max anyway
+
 	return (new);
 }
-
