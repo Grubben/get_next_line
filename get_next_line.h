@@ -22,6 +22,10 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# ifndef MAX_FD
+#  define MAX_FD 256
+# endif
+
 char	*get_next_line(int fd);
 
 size_t ft_strlcpy(char *dst, const char *src, size_t dstsize);

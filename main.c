@@ -32,7 +32,7 @@ int	main(void)
 	//printf("%i", reret[1]);
 	
 	printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 
 	/*
