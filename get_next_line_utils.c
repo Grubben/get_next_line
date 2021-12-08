@@ -3,33 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaria-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:34:26 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/11/17 13:02:37 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/12/08 18:03:16 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	if (dstsize > 0)
-	{
-		i = 0;
-		while (i < dstsize - 1)
-		{
-			if (src[i] == '\0')
-				break ;
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (ft_strlen(src));
-}
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -94,15 +76,6 @@ char	*ft_strdup(const char *s1)
 	return (ptr);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	while (n != 0)
-	{
-		((char *)s)[n - 1] = 0;
-		n--;
-	}
-}
-
 /*	SUBSTR	*/
 static int	ft_smin(long long a, long long b)
 {
@@ -152,31 +125,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ptr);
 }
 /*	SUBSTR	*/
-
-void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	size_t	i;
-
-	if (src < dst)
-	{
-		i = len;
-		while (i > 0)
-		{
-			((char *)dst)[i - 1] = ((char *)src)[i - 1];
-			i--;
-		}
-		return ((void *)dst);
-	}
-	if (dst == NULL && src == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		((char *)dst)[i] = ((char *)src)[i];
-		i++;
-	}
-	return (dst);
-}
 
 
 char	*ft_strjoin(char const *s1, char const *s2)

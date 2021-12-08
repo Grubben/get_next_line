@@ -23,7 +23,14 @@ switch		:
 unswitch	:
 				mv get_next_line.c overhaul.c
 				mv get_next_lineOLD.c get_next_line.c
-				
+
+bonus		:
+				cp get_next_line.c get_next_line_bonus.c
+				cp get_next_line_utils.c get_next_line_utils_bonus.c
+				cp get_next_line.h get_next_line_bonus.h
+
+unbonus		:
+				$(RM) *bonus.*
 $(lib)		: $(OBJS)
 				ar rs aux-funcs.a $(OBJS)
 
@@ -39,4 +46,4 @@ fclean		: clean
 re			: fclean run
 
 
-.PHONY		: $(lib) $(NAME) run all bonus clean fclean re
+.PHONY		: $(lib) $(NAME) run all bonus clean fclean re bonus unbonus

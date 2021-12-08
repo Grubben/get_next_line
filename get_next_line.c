@@ -25,16 +25,17 @@ char	*get_next_line(int fd)
 			line[fd] = NULL;
 			return (NULL);
 		}
-		//else
-		//	return (get_next_line[fd](fd));
 	}
 
-	nlpos = ft_strchr(line[fd], '\n'); 
+	nlpos = ft_strchr(line[fd], '\n');
+
+	// Yes a '\n' in line[fd]
 	if (nlpos != NULL)	// NOTE it's done on line[fd] not tmp
 	{
 		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)	// if it's the last character
 		{
-			new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
+			// new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
+			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));
 			free(line[fd]);
 			line[fd] = NULL;
 			return (new);
@@ -45,10 +46,7 @@ char	*get_next_line(int fd)
 		free(other);
 		return (new);
 	}
-
-
 	// No '\n' in line[fd]
-
 	nlpos = ft_strchr(tmp, '\n');
 	while (nlpos == NULL)
 	{
@@ -58,7 +56,8 @@ char	*get_next_line(int fd)
 		// read makes sure this happens by itself by adding weird stuff to last read!!!!!!!!!!
 		if (reret == 0)
 		{
-			new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
+			// new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
+			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));
 			free(line[fd]);
 			line[fd] = NULL;
 			return (new);
