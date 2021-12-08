@@ -1,5 +1,13 @@
 #include "get_next_line.h"
 
+char	*free_ret(char **toleave, char *toret)
+{
+	free(*toleave);
+	*toleave = NULL;
+	return (toret);
+}
+
+
 char	*get_next_line(int fd)
 {
 	static char	*line[MAX_FD];
@@ -10,12 +18,15 @@ char	*get_next_line(int fd)
 	ssize_t		reret;
 
 	// Input error checker
-	if (fd < 0 || fd > 1024 || BUFFER_SIZE < 1)
+	if (fd < 0 || (fd > 256 || BUFFER_SIZE < 1))
 		return (NULL);
 
 	if (line[fd] == NULL)
 	{
-		line[fd] = calloc(BUFFER_SIZE + 1, sizeof(char));
+		// line[fd] = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		line[fd] = malloc(BUFFER_SIZE + 1);
+		line[fd][BUFFER_SIZE] = 0;
+		// line[fd] = calloc(BUFFER_SIZE + 1, sizeof(char)); Solves all leaks. WHY???????
 		reret = read(fd, line[fd], BUFFER_SIZE);
 		if (reret <= -1)
 			return (NULL);

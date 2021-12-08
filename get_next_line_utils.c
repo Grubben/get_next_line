@@ -6,7 +6,7 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:34:26 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/08 18:03:16 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/12/08 19:30:01 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void	*ptr;
+	char	*ptr;
 	size_t	i;
 
-	ptr = malloc(count * size);
+	ptr = (char *)malloc(count * size);
 	if (!ptr)
 		return (NULL);
 	i = 0;
 	while (i < count * size)
 	{
-		((char *)ptr)[i] = 0;
+		// ptr[i] = 0;
+		*(ptr + i) = 0;
 		i++;
 	}
-	return (ptr);
+	return ((void *)ptr);
 }
 
 size_t	ft_strlen(const char *s)
@@ -56,25 +57,6 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	size_t	len;
-	size_t	i;
-	char	*ptr;
-
-	len = ft_strlen(s1);
-	ptr = malloc(len + 1);
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
 
 /*	SUBSTR	*/
 static int	ft_smin(long long a, long long b)
@@ -125,6 +107,31 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ptr);
 }
 /*	SUBSTR	*/
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	size_t	i;
+
+	if (src < dst)
+	{
+		i = len;
+		while (i > 0)
+		{
+			((char *)dst)[i - 1] = ((char *)src)[i - 1];
+			i--;
+		}
+		return ((void *)dst);
+	}
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		((char *)dst)[i] = ((char *)src)[i];
+		i++;
+	}
+	return (dst);
+}
 
 
 char	*ft_strjoin(char const *s1, char const *s2)

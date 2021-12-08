@@ -6,7 +6,7 @@
 /*   By: prafael- <prafael-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/25 15:23:29 by prafael-          #+#    #+#             */
-/*   Updated: 2021/09/25 15:23:30 by prafael-         ###   ########.fr       */
+/*   Updated: 2021/12/08 19:26:19 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ int	main(void)
 	//printf("%i", reret[0]);
 	//printf("%i", reret[1]);
 	
+	printf("%s", get_next_line(1000));
+	printf("%s", get_next_line(-1));
 	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 
 	/*
