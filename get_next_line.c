@@ -12,7 +12,7 @@ char	*get_next_line(int fd)
 {
 	static char	*line[MAX_FD];
 	char		*nlpos;
-	char		tmp[BUFFER_SIZE + 1];
+	char		*tmp;
 	char		*new;
 	char		*other;
 	ssize_t		reret;
@@ -23,7 +23,7 @@ char	*get_next_line(int fd)
 
 	if (line[fd] == NULL)
 	{
-		// line[fd] = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		//line[fd] = calloc(BUFFER_SIZE + 1, sizeof(char));
 		line[fd] = malloc(BUFFER_SIZE + 1);
 		line[fd][BUFFER_SIZE] = 0;
 		// line[fd] = calloc(BUFFER_SIZE + 1, sizeof(char)); Solves all leaks. WHY???????
@@ -58,7 +58,9 @@ char	*get_next_line(int fd)
 		return (new);
 	}
 	// No '\n' in line[fd]
-	nlpos = ft_strchr(tmp, '\n');
+	tmp = malloc(BUFFER_SIZE + 1);
+	tmp[BUFFER_SIZE] = 0;
+	//nlpos = ft_strchr(tmp, '\n');
 	while (nlpos == NULL)
 	{
 		reret = read(fd, tmp, BUFFER_SIZE);	
@@ -90,6 +92,7 @@ char	*get_next_line(int fd)
 		line[fd] = NULL;
 		return (new);
 	}
+	free(tmp);
 	other = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'	
 	new = ft_strjoin(line[fd], other);	// line[fd] + string up to n' including '\n'
 	free(other);

@@ -21,6 +21,7 @@
 int	main(void)
 {
 	int		fd;
+	char		*info;
 	//char	*reret;
 
 	fd = open("trash.txt", O_RDONLY);
@@ -31,9 +32,11 @@ int	main(void)
 	//printf("%i", reret[0]);
 	//printf("%i", reret[1]);
 	
-	printf("%s", get_next_line(1000));
-	printf("%s", get_next_line(-1));
-	printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(1000));
+	//printf("%s", get_next_line(-1));
+	info = get_next_line(fd);
+	printf("%s", info);
+	free(info);
 	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 
