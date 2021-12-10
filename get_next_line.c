@@ -7,6 +7,12 @@ char	*free_ret(char **toleave, char *toret)
 	return (toret);
 }
 
+/* a = x;
+ * x = b;
+ * free(a);
+ * ->
+ *  free_chg(x, b);
+*/
 void	free_chg(char **tofree, char *newval)
 {
 	free(*tofree);
@@ -19,7 +25,6 @@ char	*get_next_line(int fd)
 	char		*nlpos;
 	char		*tmp;
 	char		*new;
-	char		*other;
 	ssize_t		reret;
 
 	// Input error checker
@@ -81,12 +86,10 @@ char	*get_next_line(int fd)
 		free(tmp);
 		return (free_ret(&line[fd], new));
 	}
-	other = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'	
-	new = ft_strjoin(line[fd], other);	// line[fd] + string up to n' including '\n'
-	free(other);
 
-	free(line[fd]);
-	line[fd] = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now. It's a max anyway
-	
+	new = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'
+	free_chg(&new, ft_strjoin(line[fd], new));
+	free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
 	return (free_ret(&tmp, new));
+
 }
