@@ -7,6 +7,11 @@ char	*free_ret(char **toleave, char *toret)
 	return (toret);
 }
 
+void	free_chg(char **tofree, char *newval)
+{
+	free(*tofree);
+	*tofree = newval;
+}
 
 char	*get_next_line(int fd)
 {
@@ -38,7 +43,7 @@ char	*get_next_line(int fd)
 	{
 		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)	// if it's the last character
 		{
-			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));	// This used to be a ft_strdup
+			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));	// == ft_strdup(line[fd])
 			return (free_ret(&line[fd], new));
 		}
 		tmp = line[fd];
@@ -58,8 +63,7 @@ char	*get_next_line(int fd)
 		if (reret == 0)
 		{
 			free(tmp);
-			// new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
-			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));
+			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));	// == ft_strdup(line[fd])
 			return (free_ret(&line[fd], new));
 		}
 		tmp[reret] = '\0';	// The Golden Trick
@@ -71,8 +75,7 @@ char	*get_next_line(int fd)
 		line[fd] = new;
 	}
 	// return (line[fd]) up till '\n'
-	// what if nlpos is the last char of line[fd]!!!
-	if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if it's the last character
+	if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if '\n' is the last character
 	{
 		new = ft_strjoin(line[fd], tmp);
 		free(tmp);
@@ -81,9 +84,9 @@ char	*get_next_line(int fd)
 	other = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'	
 	new = ft_strjoin(line[fd], other);	// line[fd] + string up to n' including '\n'
 	free(other);
+
 	free(line[fd]);
 	line[fd] = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now. It's a max anyway
-	free(tmp);
-
-	return (new);
+	
+	return (free_ret(&tmp, new));
 }
