@@ -26,7 +26,7 @@ char	*get_next_line(int fd)
 		//line[fd] = calloc(BUFFER_SIZE + 1, sizeof(char));
 		line[fd] = malloc(BUFFER_SIZE + 1);
 		line[fd][BUFFER_SIZE] = 0;
-		// line[fd] = calloc(BUFFER_SIZE + 1, sizeof(char)); Solves all leaks. WHY???????
+
 		reret = read(fd, line[fd], BUFFER_SIZE);
 		if (reret <= -1)
 			return (NULL);
@@ -38,23 +38,22 @@ char	*get_next_line(int fd)
 		}
 	}
 
-	nlpos = ft_strchr(line[fd], '\n');
+	nlpos = ft_strchr(line[fd], '\n');	// NOTE it's done on line[fd] not tmp
 
 	// Yes a '\n' in line[fd]
-	if (nlpos != NULL)	// NOTE it's done on line[fd] not tmp
+	if (nlpos != NULL)
 	{
 		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)	// if it's the last character
 		{
-			// new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
-			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));
+			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));	// This used to be a ft_strdup
 			free(line[fd]);
 			line[fd] = NULL;
 			return (new);
 		}
-		other = line[fd];
+		tmp = line[fd];
 		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1 );
-		line[fd] = ft_substr(other, nlpos - other + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
-		free(other);
+		line[fd] = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
+		free(tmp);
 		return (new);
 	}
 	// No '\n' in line[fd]
@@ -69,6 +68,7 @@ char	*get_next_line(int fd)
 		// read makes sure this happens by itself by adding weird stuff to last read!!!!!!!!!!
 		if (reret == 0)
 		{
+			free(tmp);
 			// new = ft_strdup(line[fd]);	//	This can also be expressed as a ft_substr
 			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));
 			free(line[fd]);
@@ -88,16 +88,17 @@ char	*get_next_line(int fd)
 	if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if it's the last character
 	{
 		new = ft_strjoin(line[fd], tmp);
+		free(tmp);
 		free(line[fd]);
 		line[fd] = NULL;
 		return (new);
 	}
-	free(tmp);
 	other = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'	
 	new = ft_strjoin(line[fd], other);	// line[fd] + string up to n' including '\n'
 	free(other);
 	free(line[fd]);
 	line[fd] = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now. It's a max anyway
+	free(tmp);
 
 	return (new);
 }

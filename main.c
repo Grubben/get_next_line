@@ -34,22 +34,18 @@ int	main(void)
 	
 	//printf("%s", get_next_line(1000));
 	//printf("%s", get_next_line(-1));
-	info = get_next_line(fd);
-	printf("%s", info);
-	free(info);
 	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 
-	/*
 	while (1)
 	{
-		reret = get_next_line(fd);
-		if (reret == NULL)
+		info = get_next_line(fd);
+		if (info == NULL)
 			break;
-		printf("%s", reret);
+		printf("%s", info);
+		free(info);
 	}
 	//printf("\n%d\n", !strcmp("0", "01"));
-	*/
 	close(fd);
 
 	return (0);
