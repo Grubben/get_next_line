@@ -39,6 +39,7 @@ char	*get_next_line(int fd)
 		reret = read(fd, line[fd], BUFFER_SIZE);
 		if (reret <= 0)
 			return (free_ret(&line[fd], NULL));
+		line[fd][reret] = '\0';	// Magic trick
 	}
 
 	nlpos = ft_strchr(line[fd], '\n');	// NOTE it's done on line[fd] not tmp
