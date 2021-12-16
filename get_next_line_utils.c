@@ -6,12 +6,11 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 18:34:26 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/08 19:30:01 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:23:06 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -24,8 +23,7 @@ void	*ft_calloc(size_t count, size_t size)
 	i = 0;
 	while (i < count * size)
 	{
-		// ptr[i] = 0;
-		*(ptr + i) = 0;
+		ptr[i] = 0;
 		i++;
 	}
 	return ((void *)ptr);
@@ -56,7 +54,6 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (NULL);
 }
-
 
 /*	SUBSTR	*/
 static int	ft_smin(long long a, long long b)
@@ -133,7 +130,6 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	return (dst);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
@@ -148,4 +144,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ptr[ft_strlen(s1) + ft_strlen(s2)] = '\0';
 	return (ptr);
 }
-

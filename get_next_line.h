@@ -6,10 +6,9 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 15:29:27 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/08 18:42:05 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:23:50 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
@@ -30,9 +29,9 @@
 
 char	*get_next_line(int fd);
 
-void   *ft_calloc(size_t count, size_t size);
+void	*ft_calloc(size_t count, size_t size);
 
-size_t ft_strlen(const char *s);
+size_t	ft_strlen(const char *s);
 
 char	*ft_strchr(const char *s, int c);
 
