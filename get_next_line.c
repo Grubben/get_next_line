@@ -34,7 +34,12 @@ char	*no_n(int fd, char **line)
 	if (reret <= -1)
 		return (free_ret(&tmp, NULL));
 	if (reret == 0)
+	{
+		free(tmp);
+		if (line[fd] != NULL)
+			return (free_ret(&line[fd], line[fd]));
 		return (line[fd]);
+	}
 	
 	tmp[reret] = '\0';	// The Golden Trick
 
@@ -58,6 +63,7 @@ char	*no_n(int fd, char **line)
 
 	free_chg(&line[fd], ft_strjoin(line[fd], tmp));
 	free(tmp);
+	tmp = NULL;
 	
 	return (no_n(fd, line));
 }
@@ -101,41 +107,5 @@ char	*get_next_line(int fd)
 		return (free_ret(&tmp, new));
 	}
 
-	// No '\n' in line[fd]
-	tmp = malloc(BUFFER_SIZE + 1);
-	tmp[BUFFER_SIZE] = 0;
-	//nlpos = ft_strchr(tmp, '\n');
-	while (nlpos == NULL)
-	{
-		reret = read(fd, tmp, BUFFER_SIZE);	
-		if (reret <= -1)
-			return (free_ret(&tmp, NULL));
-		if (reret == 0)
-		{
-			free(tmp);
-			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));	// == ft_strdup(line[fd])
-			return (free_ret(&line[fd], new));
-		}
-		tmp[reret] = '\0';	// The Golden Trick
-		nlpos = ft_strchr(tmp, '\n');
-		if (nlpos != NULL)
-			break ;
-		new = ft_strjoin(line[fd], tmp);	// not sure what happens if line[fd] is empty
-		free(line[fd]);
-		line[fd] = new;
-	}
-	// return (line[fd]) up till '\n'
-	if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if '\n' is the last character
-	{
-		new = ft_strjoin(line[fd], tmp);
-		free(tmp);
-		return (free_ret(&line[fd], new));
-	}
-
-	new = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'
-
-	free_chg(&new, ft_strjoin(line[fd], new));
-	free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
-	return (free_ret(&tmp, new));
-
+	return (no_n(fd, line));
 }
