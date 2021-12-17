@@ -7,8 +7,7 @@ char	*free_ret(char **toleave, char *toret)
 	return (toret);
 }
 
-/* a = x;
- * x = b;
+/* x = b;
  * free(a);
  * ->
  *  free_chg(x, b);
@@ -17,6 +16,50 @@ void	free_chg(char **tofree, char *newval)
 {
 	free(*tofree);
 	*tofree = newval;
+}
+
+char	*no_n(int fd, char **line)
+{
+	ssize_t	reret;
+	char	*nlpos;
+	char	*new;
+	char	*tmp;
+
+
+	tmp = malloc(BUFFER_SIZE + 1);
+	tmp[BUFFER_SIZE] = 0;
+
+
+	reret = read(fd, tmp, BUFFER_SIZE);	
+	if (reret <= -1)
+		return (free_ret(&tmp, NULL));
+	if (reret == 0)
+		return (line[fd]);
+	
+	tmp[reret] = '\0';	// The Golden Trick
+
+	nlpos = ft_strchr(tmp, '\n');
+	if (nlpos != NULL)
+	{
+		if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if '\n' is the last character
+		{
+			new = ft_strjoin(line[fd], tmp);
+			free(tmp);
+			return (free_ret(&line[fd], new));
+		}
+		new = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'
+		free_chg(&new, ft_strjoin(line[fd], new));	// all the string up to n' including '\n'
+
+
+		free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
+
+		return (new);
+	}
+
+	free_chg(&line[fd], ft_strjoin(line[fd], tmp));
+	free(tmp);
+	
+	return (no_n(fd, line));
 }
 
 char	*get_next_line(int fd)
@@ -57,6 +100,7 @@ char	*get_next_line(int fd)
 		line[fd] = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
 		return (free_ret(&tmp, new));
 	}
+
 	// No '\n' in line[fd]
 	tmp = malloc(BUFFER_SIZE + 1);
 	tmp[BUFFER_SIZE] = 0;
@@ -89,6 +133,7 @@ char	*get_next_line(int fd)
 	}
 
 	new = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'
+
 	free_chg(&new, ft_strjoin(line[fd], new));
 	free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
 	return (free_ret(&tmp, new));
