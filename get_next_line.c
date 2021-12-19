@@ -36,9 +36,10 @@ char	*no_n(int fd, char **line)
 	if (reret == 0)
 	{
 		free(tmp);
-		if (line[fd] != NULL)
-			return (free_ret(&line[fd], line[fd]));
-		return (line[fd]);
+		tmp = ft_substr(line[fd], 0, ft_strlen(line[fd]));	// == ft_strdup(line[fd])
+		//if (line[fd] != NULL)
+		free_chg(&line[fd], NULL);
+		return (tmp);
 	}
 	
 	tmp[reret] = '\0';	// The Golden Trick
