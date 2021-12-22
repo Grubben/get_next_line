@@ -35,7 +35,7 @@ char	*make_new(int fd, char **line, char **adtmp)
 		if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if '\n' is the last character
 			free_chg(&line[fd], NULL);
 		else
-			free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
+			free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, ft_strlen(line[fd]))); // len = strlen is overkill but sufficient for now. It's a max anyway
 		free(tmp);
 		return (new);
 	}
@@ -75,14 +75,11 @@ char	*get_next_line(int fd)
 {
 	static char	*line[MAX_FD];
 	char		*nlpos;
-	char		*tmp;
 	char		*new;
 	ssize_t		reret;
 
-	// Input error checker
-	if (fd < 0 || (fd > 256 || BUFFER_SIZE < 1))
+	if (fd < 0 || (fd > 256 || BUFFER_SIZE < 1))	// Input error checker
 		return (NULL);
-
 	if (line[fd] == NULL)
 	{
 		line[fd] = malloc(BUFFER_SIZE + 1);
@@ -93,22 +90,15 @@ char	*get_next_line(int fd)
 			return (free_ret(&line[fd], NULL));
 		line[fd][reret] = '\0';	// Magic trick
 	}
-
 	nlpos = ft_strchr(line[fd], '\n');	// NOTE it's done on line[fd] not tmp
-
-	// Yes a '\n' in line[fd]
-	if (nlpos != NULL)
+	if (nlpos != NULL)	// Yes a '\n' in line[fd]
 	{
-		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)	// if it's the last character
-		{
-			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));	// == ft_strdup(line[fd])
-			return (free_ret(&line[fd], new));
-		}
-		tmp = line[fd];
-		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1 );
-		line[fd] = ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE); // len = BF is overkill but sufficient for now
-		return (free_ret(&tmp, new));
+		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1 );	// tmp up to n' including '\n'
+		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) -1)	// if '\n' is the last character
+			free_chg(&line[fd], NULL);
+		else
+			free_chg(&line[fd], ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(line[fd]))); // len = strlen is overkill but sufficient for now. It's a max anyway
+		return (new);
 	}
-
 	return (no_n(fd, line));
 }
