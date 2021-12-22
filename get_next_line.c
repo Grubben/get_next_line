@@ -59,6 +59,7 @@ char	*no_n(int fd, char **line)
 
 		free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
 
+		free(tmp);
 		return (new);
 	}
 
