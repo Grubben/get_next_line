@@ -47,17 +47,14 @@ char	*no_n(int fd, char **line)
 	nlpos = ft_strchr(tmp, '\n');
 	if (nlpos != NULL)
 	{
-		if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if '\n' is the last character
-		{
-			new = ft_strjoin(line[fd], tmp);
-			free(tmp);
-			return (free_ret(&line[fd], new));
-		}
-		new = ft_substr(tmp, 0, nlpos - tmp + 1 );	// string up to n' including '\n'
+		new = ft_substr(tmp, 0, nlpos - tmp + 1 );	// tmp up to n' including '\n'
 		free_chg(&new, ft_strjoin(line[fd], new));	// all the string up to n' including '\n'
 
-
-		free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
+		//	If ft_substr makes it point  NULL if the size isn't good (start == '\0') then just free_chg is necessary
+		if ((size_t)(nlpos - tmp) == ft_strlen(tmp) -1)	// if '\n' is the last character
+			free_ret(&line[fd], NULL);
+		else
+			free_chg(&line[fd], ft_substr(tmp, nlpos - tmp + 1, BUFFER_SIZE)); // len = BF is overkill but sufficient for now. It's a max anyway
 
 		free(tmp);
 		return (new);
@@ -65,7 +62,6 @@ char	*no_n(int fd, char **line)
 
 	free_chg(&line[fd], ft_strjoin(line[fd], tmp));
 	free(tmp);
-	tmp = NULL;
 	
 	return (no_n(fd, line));
 }
