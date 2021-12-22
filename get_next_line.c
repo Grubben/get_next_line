@@ -83,22 +83,18 @@ char	*get_next_line(int fd)
 	if (line[fd] == NULL)
 	{
 		line[fd] = malloc(BUFFER_SIZE + 1);
-		line[fd][BUFFER_SIZE] = 0;
-
 		reret = read(fd, line[fd], BUFFER_SIZE);
 		if (reret <= 0)
 			return (free_ret(&line[fd], NULL));
 		line[fd][reret] = '\0';	// Magic trick
 	}
 	nlpos = ft_strchr(line[fd], '\n');	// NOTE it's done on line[fd] not tmp
-	if (nlpos != NULL)	// Yes a '\n' in line[fd]
-	{
-		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1 );	// tmp up to n' including '\n'
-		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) -1)	// if '\n' is the last character
-			free_chg(&line[fd], NULL);
-		else
-			free_chg(&line[fd], ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(line[fd]))); // len = strlen is overkill but sufficient for now. It's a max anyway
-		return (new);
-	}
-	return (no_n(fd, line));
+	if (nlpos == NULL)
+		return (no_n(fd, line));
+	new = ft_substr(line[fd], 0, nlpos - line[fd] + 1 );	// tmp up to n' including '\n'
+	if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) -1)	// if '\n' is the last character
+		free_chg(&line[fd], NULL);
+	else
+		free_chg(&line[fd], ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(line[fd]))); // len = strlen is overkill but sufficient for now. It's a max anyway
+	return (new);
 }
