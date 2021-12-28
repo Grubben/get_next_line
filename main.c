@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prafael- <prafael-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/25 15:23:29 by prafael-          #+#    #+#             */
-/*   Updated: 2021/12/08 19:26:19 by amaria-d         ###   ########.fr       */
+/*   Created: 2021/12/28 14:49:10 by amaria-d          #+#    #+#             */
+/*   Updated: 2021/12/28 14:49:11 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "get_next_line.h"
 #include <fcntl.h>

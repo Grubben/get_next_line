@@ -41,7 +41,7 @@ clean		:
 				$(RM) $(OBJS)
 
 fclean		: clean
-				$(RM) *.out* $(lib) 
+				$(RM) *.out* $(lib) *.gch
 
 re			: fclean run
 
