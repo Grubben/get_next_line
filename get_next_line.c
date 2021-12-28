@@ -6,7 +6,7 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:48:54 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/28 14:53:11 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/12/28 16:45:36 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*get_next_line(int fd)
 	char		*new;
 	ssize_t		reret;
 
-	if (fd < 0 || (fd > 256 || BUFFER_SIZE < 1)) // Input error checker
+	if (fd < 0 || (fd > 1024 || BUFFER_SIZE < 1)) // Input error checker
 		return (NULL);
 	if (line[fd] == NULL)
 	{

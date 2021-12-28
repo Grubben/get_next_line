@@ -6,7 +6,7 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 15:29:27 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/16 21:23:50 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/12/28 16:45:56 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # endif
 
 # ifndef MAX_FD
-#  define MAX_FD 256
+#  define MAX_FD 1024
 # endif
 
 char	*get_next_line(int fd);
