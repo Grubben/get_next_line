@@ -6,11 +6,11 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:48:54 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/28 17:37:02 by amaria-d         ###   ########.fr       */
+/*   Updated: 2021/12/28 17:51:50 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*free_ret(char **toleave, char *toret)
 {
