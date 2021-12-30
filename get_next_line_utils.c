@@ -60,14 +60,16 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	min = len;
-	if (ft_strlen(s) < len)
-		min = ft_strlen(s);
+	if (ft_strlen(s + start) < len)
+		min = ft_strlen(s + start);
 	if (start >= ft_strlen(s))
 		ptr = malloc(1);
 	else
 		ptr = malloc((min + 1) * sizeof(char));
 	if (!ptr)
 		return (NULL);
+	if (start >= ft_strlen(s))
+		return (ptr);
 	i = 0;
 	while (i < min)
 	{

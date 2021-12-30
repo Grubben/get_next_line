@@ -102,7 +102,6 @@ char	*get_next_line(int fd)
 	if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)
 		free_chg(&line[fd], NULL);
 	else
-		free_chg(&line[fd], ft_substr(line[fd],
-				nlpos - line[fd] + 1, ft_strlen(line[fd])));
+		free_chg(&line[fd], ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(line[fd])));
 	return (new);
 }
