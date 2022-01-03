@@ -59,23 +59,25 @@ char	*no_n(int fd, char **line)
 {
 	ssize_t	reret;
 	char	*new;
-	char	*tmp;
+    char    *tmp;
 
-	tmp = malloc(BUFFER_SIZE + 1);
-	reret = read(fd, tmp, BUFFER_SIZE);
-	if (reret <= -1)
-		return (free_ret(&tmp, NULL));
-	if (reret == 0)
-	{
-		free_chg(&tmp, ft_substr(line[fd], 0, ft_strlen(line[fd])));
-		free_chg(&line[fd], NULL);
-		return (tmp);
-	}
-	tmp[reret] = '\0';
-	new = make_new(fd, line, &tmp);
-	if (new == NULL)
-		return (no_n(fd, line));
-	return (new);
+    new = NULL;
+    while (new == NULL)
+    {
+        tmp = malloc(BUFFER_SIZE + 1);
+        reret = read(fd, tmp, BUFFER_SIZE);
+        if (reret <= -1)
+            return (free_ret(&tmp, NULL));
+        if (reret == 0)
+        {
+            free_chg(&tmp, ft_substr(line[fd], 0, ft_strlen(line[fd])));
+		    free_chg(&line[fd], NULL);
+		    return (tmp);
+        }
+        tmp[reret] = '\0';
+        new = make_new(fd, line, &tmp);
+    }
+    return (new);
 }
 
 char	*get_next_line(int fd)
