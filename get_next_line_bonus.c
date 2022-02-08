@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/28 14:48:54 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/28 17:37:02 by amaria-d         ###   ########.fr       */
+/*   Created: 2022/02/08 13:29:13 by amaria-d          #+#    #+#             */
+/*   Updated: 2022/02/08 13:29:14 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*free_ret(char **toleave, char *toret)
 /* x = b;
  * free(a);
  * ->
- *  free_chg(x, b);
+ *	free_chg(x, b);
 */
 void	free_chg(char **tofree, char *newval)
 {
@@ -59,25 +59,25 @@ char	*no_n(int fd, char **line)
 {
 	ssize_t	reret;
 	char	*new;
-    char    *tmp;
+	char	*tmp;
 
-    new = NULL;
-    while (new == NULL)
-    {
-        tmp = malloc(BUFFER_SIZE + 1);
-        reret = read(fd, tmp, BUFFER_SIZE);
-        if (reret <= -1)
-            return (free_ret(&tmp, NULL));
-        if (reret == 0)
-        {
-            free_chg(&tmp, ft_substr(line[fd], 0, ft_strlen(line[fd])));
-		    free_chg(&line[fd], NULL);
-		    return (tmp);
-        }
-        tmp[reret] = '\0';
-        new = make_new(fd, line, &tmp);
-    }
-    return (new);
+	new = NULL;
+	while (new == NULL)
+	{
+		tmp = malloc(BUFFER_SIZE + 1);
+		reret = read(fd, tmp, BUFFER_SIZE);
+		if (reret <= -1)
+			return (free_ret(&tmp, NULL));
+		if (reret == 0)
+		{
+			free_chg(&tmp, ft_substr(line[fd], 0, ft_strlen(line[fd])));
+			free_chg(&line[fd], NULL);
+			return (tmp);
+		}
+		tmp[reret] = '\0';
+		new = make_new(fd, line, &tmp);
+	}
+	return (new);
 }
 
 char	*get_next_line(int fd)
@@ -104,6 +104,7 @@ char	*get_next_line(int fd)
 	if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)
 		free_chg(&line[fd], NULL);
 	else
-		free_chg(&line[fd], ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(line[fd])));
+		free_chg(&line[fd], ft_substr(line[fd],
+				nlpos - line[fd] + 1, ft_strlen(line[fd])));
 	return (new);
 }
