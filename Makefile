@@ -16,6 +16,9 @@ run			: $(OBJS)
 				$(CC) $(CFLAGS) -o $(NAME) get_next_line.c $(OBJS)
 				./a.out
 
+plan		:
+				dot -Tsvg plan.dot > layout.svg
+
 switch		:
 				mv get_next_line.c get_next_lineOLD.c
 				mv overhaul.c get_next_line.c
