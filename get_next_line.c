@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-char	*free_ret(char **toleave, char *toret)
+static char	*free_ret(char **toleave, char *toret)
 {
 	free(*toleave);
 	*toleave = NULL;
@@ -24,13 +24,13 @@ char	*free_ret(char **toleave, char *toret)
  * ->
  *	free_chg(x, b);
 */
-void	free_chg(char **tofree, char *newval)
+static void	free_chg(char **tofree, char *newval)
 {
 	free(*tofree);
 	*tofree = newval;
 }
 
-char	*make_new(int fd, char **line, char **adtmp)
+static char	*make_new(int fd, char **line, char **adtmp)
 {
 	char	*nlpos;
 	char	*new;
@@ -55,7 +55,7 @@ char	*make_new(int fd, char **line, char **adtmp)
 	return (NULL);
 }
 
-char	*no_n(int fd, char **line)
+static char	*no_n(int fd, char **line)
 {
 	ssize_t	reret;
 	char	*new;
