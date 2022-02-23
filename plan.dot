@@ -3,7 +3,7 @@ digraph G {
 
 	get_next_line->malloc; get_next_line->read; get_next_line->ft_strchr;
 	get_next_line->no_n; get_next_line->ft_substr; get_next_line->ft_strlen;
-	get_next_line->free_chg
+	get_next_line->free_chg; get_next_line->free_ret;
 
 	no_n->malloc; no_n->read; no_n->free_ret; no_n->ft_substr; no_n->ft_strlen;
 	no_n->free_chg; no_n->make_new;
