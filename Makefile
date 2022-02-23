@@ -45,6 +45,7 @@ clean		:
 
 fclean		: clean
 				$(RM) *.out* $(lib) *.gch
+				$(RM) *.svg
 
 re			: fclean run
 
