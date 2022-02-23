@@ -87,7 +87,7 @@ char	*get_next_line(int fd)
 	char		*new;
 	ssize_t		reret;
 
-	if (fd < 0 || (fd > 1024 || BUFFER_SIZE < 1))
+	if (read(fd, 0, 0) || BUFFER_SIZE < 1)
 		return (NULL);
 	if (line[fd] == NULL)
 	{
