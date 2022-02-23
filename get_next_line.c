@@ -61,17 +61,21 @@ char	*no_n(int fd, char **line)
 	char	*new;
 	char	*tmp;
 
-	new = NULL;
-	while (new == NULL)
-	{
-		tmp = malloc(BUFFER_SIZE + 1);
-		reret = read(fd, tmp, BUFFER_SIZE);
+	tmp = ft_substr(line[fd], 0, ft_strlen(line[fd])); //copy
+
+
+
 		if (reret <= -1)
-			return (free_ret(&tmp, NULL));
+		{
+			free(tmp);
+			return (NULL);
+		}
 		if (reret == 0)
 		{
-			free_chg(&tmp, ft_substr(line[fd], 0, ft_strlen(line[fd])));
-			free_chg(&line[fd], NULL);
+			free(&tmp);
+			tmp = ft_substr(line[fd], 0, ft_strlen(line[fd]));
+			free(line[fd]);
+			line[fd] = NULL;
 			return (tmp);
 		}
 		tmp[reret] = '\0';
@@ -80,31 +84,60 @@ char	*no_n(int fd, char **line)
 	return (new);
 }
 
+void	emptyRead(int fd, char **line)
+{
+	ssize_t	reret;
+
+	line[fd] = malloc(BUFFER_SIZE + 1);
+	reret = read(fd, line[fd], BUFFER_SIZE);
+	if (reret <= 0)
+	{
+		free(line[fd]);
+		return ;
+	}
+	line[fd][reret] = '\0';
+}
+
+char	*debrisRead(int fd, char **line)
+{
+	char	*nlpos;
+	char	*new;
+
+	nlpos = ft_strchr(line[fd], '\n');
+	if (nlpos == NULL)
+	{
+		no_n(fd, line);
+		return (debrisRead(fd, line));
+	}
+	new = ft_substr(line[fd], 0, nlpos - line[fd] + 1);
+	if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)
+	{
+		free(&line[fd]);
+		line[fd] = NULL;
+	}
+	else
+	{
+		free(&line[fd]);
+		line[fd] = ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(line[fd]));
+		// !!! WRONG !!!
+	}
+	return (new);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*line[MAX_FD];
-	char		*nlpos;
 	char		*new;
-	ssize_t		reret;
+	ssize_t		check;
 
 	if (read(fd, 0, 0) || BUFFER_SIZE < 1)
 		return (NULL);
 	if (line[fd] == NULL)
 	{
-		line[fd] = malloc(BUFFER_SIZE + 1);
-		reret = read(fd, line[fd], BUFFER_SIZE);
-		if (reret <= 0)
-			return (free_ret(&line[fd], NULL));
-		line[fd][reret] = '\0';
+		check = emptyRead(fd, line);
+		if (check <= 0)
+			return (NULL);
 	}
-	nlpos = ft_strchr(line[fd], '\n');
-	if (nlpos == NULL)
-		return (no_n(fd, line));
-	new = ft_substr(line[fd], 0, nlpos - line[fd] + 1);
-	if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)
-		free_chg(&line[fd], NULL);
-	else
-		free_chg(&line[fd], ft_substr(line[fd],
-				nlpos - line[fd] + 1, ft_strlen(line[fd])));
+	new = debrisRead(fd, line);
 	return (new);
 }

@@ -6,7 +6,7 @@ OBJS		= $(SRCS:.c=.o)
 RM			= rm -rf
 
 CC 			= gcc
-CFLAGS		= -Wall -Wextra -Werror -D BUFFER_SIZE=1 -g
+CFLAGS		= -Wall -Wextra -Werror -D BUFFER_SIZE=1 -g3
 
 
 lib			= aux-funcs.a
@@ -18,6 +18,7 @@ run			: $(OBJS)
 
 plan		:
 				dot -Tsvg plan.dot > layout.svg
+				dot -Tsvg planNew.dot > layout2.svg
 
 switch		:
 				mv get_next_line.c get_next_lineOLD.c
