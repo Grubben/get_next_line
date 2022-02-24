@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-static char	*free_ret(char **toleave, char *toret)
+char	*free_ret(char **toleave, char *toret)
 {
 	free(*toleave);
 	*toleave = NULL;
@@ -24,13 +24,13 @@ static char	*free_ret(char **toleave, char *toret)
  * ->
  *	free_chg(x, b);
 */
-static void	free_chg(char **tofree, char *newval)
+void	free_chg(char **tofree, char *newval)
 {
 	free(*tofree);
 	*tofree = newval;
 }
 
-static char	*make_new(int fd, char **line, char **adtmp)
+char	*make_new(int fd, char **line, char **adtmp)
 {
 	char	*nlpos;
 	char	*new;
@@ -55,7 +55,7 @@ static char	*make_new(int fd, char **line, char **adtmp)
 	return (NULL);
 }
 
-static char	*no_n(int fd, char **line)
+char	*no_n(int fd, char **line)
 {
 	ssize_t	reret;
 	char	*new;
