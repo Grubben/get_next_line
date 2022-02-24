@@ -11,7 +11,14 @@ digraph G {
 
 	ft_strchr->yes_n [label="if \\n inside"];
 	ft_strchr->no_n [label="if no \\n inside"];
-	
+
+	yes_n->new;
+	yes_n->rest;
+
+	no_n->get_more;
+
+	get_more->debrisLine;
+
 	//no_n->malloc; no_n->read; no_n->free_ret; no_n->ft_substr; no_n->ft_strlen;
 	//no_n->free_chg; no_n->make_new;
 
