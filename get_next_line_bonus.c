@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-char	*free_ret(char **toleave, char *toret)
+char	*free_ret_bns(char **toleave, char *toret)
 {
 	free(*toleave);
 	*toleave = NULL;
@@ -24,38 +24,38 @@ char	*free_ret(char **toleave, char *toret)
  * ->
  *	free_chg(x, b);
 */
-void	free_chg(char **tofree, char *newval)
+void	free_chg_bns(char **tofree, char *newval)
 {
 	free(*tofree);
 	*tofree = newval;
 }
 
-char	*make_new(int fd, char **line, char **adtmp)
+char	*make_new_bns(int fd, char **line, char **adtmp)
 {
 	char	*nlpos;
 	char	*new;
 	char	*tmp;
 
 	tmp = *adtmp;
-	nlpos = ft_strchr(tmp, '\n');
+	nlpos = ft_strchr_bns(tmp, '\n');
 	if (nlpos != NULL)
 	{
-		new = ft_substr(tmp, 0, nlpos - tmp + 1);
-		free_chg(&new, ft_strjoin(line[fd], new));
-		if ((size_t)(nlpos - tmp) == ft_strlen(tmp) - 1)
-			free_chg(&line[fd], NULL);
+		new = ft_substr_bns(tmp, 0, nlpos - tmp + 1);
+		free_chg_bns(&new, ft_strjoin_bns(line[fd], new));
+		if ((size_t)(nlpos - tmp) == ft_strlen_bns(tmp) - 1)
+			free_chg_bns(&line[fd], NULL);
 		else
-			free_chg(&line[fd],
-				ft_substr(tmp, nlpos - tmp + 1, ft_strlen(line[fd])));
+			free_chg_bns(&line[fd],
+				ft_substr_bns(tmp, nlpos - tmp + 1, ft_strlen_bns(line[fd])));
 		free(tmp);
 		return (new);
 	}
-	free_chg(&line[fd], ft_strjoin(line[fd], tmp));
+	free_chg_bns(&line[fd], ft_strjoin_bns(line[fd], tmp));
 	free(tmp);
 	return (NULL);
 }
 
-char	*no_n(int fd, char **line)
+char	*no_n_bns(int fd, char **line)
 {
 	ssize_t	reret;
 	char	*new;
@@ -67,15 +67,15 @@ char	*no_n(int fd, char **line)
 		tmp = malloc(BUFFER_SIZE + 1);
 		reret = read(fd, tmp, BUFFER_SIZE);
 		if (reret <= -1)
-			return (free_ret(&tmp, NULL));
+			return (free_ret_bns(&tmp, NULL));
 		if (reret == 0)
 		{
-			free_chg(&tmp, ft_substr(line[fd], 0, ft_strlen(line[fd])));
-			free_chg(&line[fd], NULL);
+			free_chg_bns(&tmp, ft_substr_bns(line[fd], 0, ft_strlen_bns(line[fd])));
+			free_chg_bns(&line[fd], NULL);
 			return (tmp);
 		}
 		tmp[reret] = '\0';
-		new = make_new(fd, line, &tmp);
+		new = make_new_bns(fd, line, &tmp);
 	}
 	return (new);
 }
@@ -94,17 +94,17 @@ char	*get_next_line(int fd)
 		line[fd] = malloc(BUFFER_SIZE + 1);
 		reret = read(fd, line[fd], BUFFER_SIZE);
 		if (reret <= 0)
-			return (free_ret(&line[fd], NULL));
+			return (free_ret_bns(&line[fd], NULL));
 		line[fd][reret] = '\0';
 	}
-	nlpos = ft_strchr(line[fd], '\n');
+	nlpos = ft_strchr_bns(line[fd], '\n');
 	if (nlpos == NULL)
-		return (no_n(fd, line));
-	new = ft_substr(line[fd], 0, nlpos - line[fd] + 1);
-	if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)
-		free_chg(&line[fd], NULL);
+		return (no_n_bns(fd, line));
+	new = ft_substr_bns(line[fd], 0, nlpos - line[fd] + 1);
+	if ((size_t)(nlpos - line[fd]) == ft_strlen_bns(line[fd]) - 1)
+		free_chg_bns(&line[fd], NULL);
 	else
-		free_chg(&line[fd], ft_substr(line[fd],
-				nlpos - line[fd] + 1, ft_strlen(line[fd])));
+		free_chg_bns(&line[fd], ft_substr_bns(line[fd],
+				nlpos - line[fd] + 1, ft_strlen_bns(line[fd])));
 	return (new);
 }

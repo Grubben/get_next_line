@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen_bns(const char *s)
 {
 	size_t	i;
 
@@ -22,12 +22,12 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr_bns(const char *s, int c)
 {
 	size_t	len;
 	size_t	i;
 
-	len = ft_strlen(s);
+	len = ft_strlen_bns(s);
 	i = 0;
 	while (i < len + 1)
 	{
@@ -51,7 +51,7 @@ Things to add:
 	min = ft_smin((long long)start, (long long)len);
 	ptr = ft_calloc(min + 1, sizeof(char));
 */
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_bns(char const *s, unsigned int start, size_t len)
 {
 	size_t		min;
 	size_t		i;
@@ -60,15 +60,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	min = len;
-	if (ft_strlen(s + start) < len)
-		min = ft_strlen(s + start);
-	if (start >= ft_strlen(s))
+	if (ft_strlen_bns(s + start) < len)
+		min = ft_strlen_bns(s + start);
+	if (start >= ft_strlen_bns(s))
 		ptr = malloc(1);
 	else
 		ptr = malloc((min + 1) * sizeof(char));
 	if (!ptr)
 		return (NULL);
-	if (start >= ft_strlen(s))
+	if (start >= ft_strlen_bns(s))
 		return (ptr);
 	i = 0;
 	while (i < min)
@@ -80,7 +80,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ptr);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_bns(char const *s1, char const *s2)
 {
 	char	*ptr;
 	size_t	i;
@@ -90,8 +90,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1)
 		return (NULL);
-	sl1 = ft_strlen(s1);
-	sl2 = ft_strlen(s2);
+	sl1 = ft_strlen_bns(s1);
+	sl2 = ft_strlen_bns(s2);
 	ptr = malloc(sl1 + sl2 + 1);
 	if (!ptr)
 		return (NULL);
