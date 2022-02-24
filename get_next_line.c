@@ -107,21 +107,14 @@ char	*debrisRead(int fd, char **line)
 	if (nlpos == NULL)
 	{
 		no_n(fd, line);
+		get_more(fd, line);
 		return (debrisRead(fd, line));
-	}
-	new = ft_substr(line[fd], 0, nlpos - line[fd] + 1);
-	if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)
-	{
-		free(&line[fd]);
-		line[fd] = NULL;
 	}
 	else
 	{
-		free(&line[fd]);
-		line[fd] = ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(line[fd]));
-		// !!! WRONG !!!
+		new = yes_n(fd, line);
+		return (new);	
 	}
-	return (new);
 }
 
 char	*get_next_line(int fd)
