@@ -61,8 +61,7 @@ char	*no_n(int fd, char **line)
 	char	*new;
 	char	*tmp;
 
-	tmp = ft_substr(line[fd], 0, ft_strlen(line[fd])); //copy
-
+	//tmp = ft_substr(line[fd], 0, ft_strlen(line[fd])); //copy
 
 
 		if (reret <= -1)
@@ -98,24 +97,55 @@ void	emptyRead(int fd, char **line)
 	line[fd][reret] = '\0';
 }
 
-char	*debrisRead(int fd, char **line)
+int	get_more(int fd, char **line)
+{
+	char	*tmp;
+	char	*reret;
+
+	tmp = malloc(BUFFER_SIZE + 1);
+	reret = read(fd, tmp, BUFFER_SIZE);
+	if (reret <= -1)
+	{
+		free(&tmp);
+		return (0);
+	}
+	if (reret = 0)
+	{
+		final_prep(...);
+		return (1);
+	}
+	return (2);
+}
+
+char	*final_prep(int fd, char **line, char *pos)
+{
+
+}
+
+char	*debrisLine(int fd, char **line)
 {
 	char	*nlpos;
 	char	*new;
+	int	tmp;
 
 	nlpos = ft_strchr(line[fd], '\n');
 	if (nlpos == NULL)
 	{
-		no_n(fd, line);
-		get_more(fd, line);
-		return (debrisRead(fd, line));
+		tmp = get_more(fd, line); 
+		if (tmp == 0)
+			return (NULL);
+		if (tmp == 1)
+		{
+			new = final_prep(fd, line, ft_strlen(line[fd]));
+			return (new);
+		}
+		if (tmp == 2)
+			return (debrisLine(fd, line));
 	}
-	else
-	{
-		new = yes_n(fd, line);
-		return (new);	
-	}
+	new = final_prep(fd, line, nlpos);
+	return (new);	
 }
+
 
 char	*get_next_line(int fd)
 {

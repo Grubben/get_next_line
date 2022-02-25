@@ -15,8 +15,8 @@ digraph G {
 	final_prep->new;
 	final_prep->rest;
 
-	get_more->debrisLine [label="if reret != 0"];
-	get_more->final_prep [label="if reret == 0"];
+	get_more->debrisLine [label="if != 0"];
+	get_more->final_prep [label="if == 0"];
 
 	//no_n->malloc; no_n->read; no_n->free_ret; no_n->ft_substr; no_n->ft_strlen;
 	//no_n->free_chg; no_n->make_new;
