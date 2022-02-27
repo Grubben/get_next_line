@@ -6,11 +6,28 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 13:31:08 by amaria-d          #+#    #+#             */
-/*   Updated: 2022/02/27 17:12:38 by amaria-d         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:20:45 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*newLine(int fd, char **line)
+{
+	ssize_t	reret;
+
+	line[fd] = malloc(BUFFER_SIZE + 1);
+	reret = read(fd, line[fd], BUFFER_SIZE);
+	if (reret <= 0)
+	{
+		free(line[fd]);
+		line[fd] = NULL;
+		return (NULL);
+	}
+	line[fd][reret] = '\0';
+	return (line[fd]);
+}
+
 
 char	*final_prep(int fd, char **line, char *pos)
 {
@@ -82,13 +99,13 @@ char	*get_next_line(int fd)
 {
 	static char	*line[MAX_FD];
 	char		*new;
-	ssize_t		check;
 
 	if (read(fd, 0, 0) || BUFFER_SIZE < 1)
 		return (NULL);
 	if (line[fd] == NULL)
 	{
-		newLine();
+		if (newLine(fd, line) == NULL)
+			return (NULL);
 	}
 	new = debrisLine(fd, line);
 	return (new);
