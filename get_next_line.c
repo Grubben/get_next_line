@@ -6,31 +6,11 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 13:31:08 by amaria-d          #+#    #+#             */
-/*   Updated: 2022/02/27 16:55:44 by amaria-d         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:12:38 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-int	get_more(int fd, char **line)
-{
-	char	*tmp;
-	char	*reret;
-
-	tmp = malloc(BUFFER_SIZE + 1);
-	reret = read(fd, tmp, BUFFER_SIZE);
-	if (reret <= -1)
-	{
-		free(&tmp);
-		return (0);
-	}
-	if (reret = 0)
-	{
-		final_prep(fd, line, NULL);
-		return (1);
-	}
-	return (2);
-}
 
 char	*final_prep(int fd, char **line, char *pos)
 {
@@ -46,12 +26,31 @@ char	*final_prep(int fd, char **line, char *pos)
 	else
 	{
 		new = ft_substr(line[fd], 0, pos - line[fd]);
-		rest = ft_substr(line[fd], pos - line[fd] + 1, ft_strlen(line[fd] + pos));
+		rest = ft_substr(line[fd], pos - line[fd] + 1, ft_strlen(pos));
 		free(line[fd]);
 		line[fd] = rest;
 	}
 	return (new);
 
+}
+
+int	get_more(int fd)
+{
+	char	*tmp;
+	ssize_t	reret;
+
+	tmp = malloc(BUFFER_SIZE + 1);
+	reret = read(fd, tmp, BUFFER_SIZE);
+	if (reret <= -1)
+	{
+		free(&tmp);
+		return (0);
+	}
+	if (reret == 0)
+	{
+		return (1);
+	}
+	return (2);
 }
 
 char	*debrisLine(int fd, char **line)
@@ -63,12 +62,12 @@ char	*debrisLine(int fd, char **line)
 	nlpos = ft_strchr(line[fd], '\n');
 	if (nlpos == NULL)
 	{
-		tmp = get_more(fd, line); 
+		tmp = get_more(fd); 
 		if (tmp == 0)
 			return (NULL);
 		if (tmp == 1)
 		{
-			new = final_prep(fd, line, ft_strlen(line[fd]));
+			new = final_prep(fd, line, NULL); 
 			return (new);
 		}
 		if (tmp == 2)
@@ -89,10 +88,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (line[fd] == NULL)
 	{
-		check = emptyRead(fd, line);
-		if (check <= 0)
-			return (NULL);
+		newLine();
 	}
-	new = debrisRead(fd, line);
+	new = debrisLine(fd, line);
 	return (new);
 }
