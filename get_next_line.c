@@ -6,7 +6,7 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 13:31:08 by amaria-d          #+#    #+#             */
-/*   Updated: 2022/02/27 17:53:50 by amaria-d         ###   ########.fr       */
+/*   Updated: 2022/02/27 18:03:41 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*final_prep(int fd, char **line, char *nlpos)
 			line[fd] = NULL;
 			return (new);
 		}
-		new = ft_substr(line[fd], 0, nlpos - line[fd]);
+		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1);
 		rest = ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(nlpos));
 		free(line[fd]);
 		line[fd] = rest;
