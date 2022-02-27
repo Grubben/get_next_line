@@ -6,7 +6,7 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 13:31:08 by amaria-d          #+#    #+#             */
-/*   Updated: 2022/02/27 17:20:45 by amaria-d         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:40:09 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ char	*final_prep(int fd, char **line, char *pos)
 
 }
 
-int	get_more(int fd)
+int	get_more(int fd, char **line)
 {
 	char	*tmp;
+	char	*new;
 	ssize_t	reret;
 
 	tmp = malloc(BUFFER_SIZE + 1);
@@ -63,6 +64,11 @@ int	get_more(int fd)
 		free(&tmp);
 		return (0);
 	}
+	tmp[reret] = '\0';
+	new = ft_strjoin(line[fd], tmp);
+	free(line[fd]);
+	free(tmp);
+	line[fd] = new;
 	if (reret == 0)
 	{
 		return (1);
@@ -79,7 +85,7 @@ char	*debrisLine(int fd, char **line)
 	nlpos = ft_strchr(line[fd], '\n');
 	if (nlpos == NULL)
 	{
-		tmp = get_more(fd); 
+		tmp = get_more(fd, line);
 		if (tmp == 0)
 			return (NULL);
 		if (tmp == 1)
