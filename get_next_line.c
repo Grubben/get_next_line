@@ -6,7 +6,7 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 13:31:08 by amaria-d          #+#    #+#             */
-/*   Updated: 2022/02/27 17:40:09 by amaria-d         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:53:50 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ char	*newLine(int fd, char **line)
 }
 
 
-char	*final_prep(int fd, char **line, char *pos)
+char	*final_prep(int fd, char **line, char *nlpos)
 {
 	char	*new;
 	char	*rest;
 
-	if (pos == NULL)
+	if (nlpos == NULL)
 	{
 		new = ft_substr(line[fd], 0, ft_strlen(line[fd])); //copy
 		free(line[fd]);
@@ -42,13 +42,19 @@ char	*final_prep(int fd, char **line, char *pos)
 	}
 	else
 	{
-		new = ft_substr(line[fd], 0, pos - line[fd]);
-		rest = ft_substr(line[fd], pos - line[fd] + 1, ft_strlen(pos));
+		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1) // if nl is last char of string
+		{
+			new = ft_substr(line[fd], 0, ft_strlen(line[fd])); //copy
+			free(line[fd]);
+			line[fd] = NULL;
+			return (new);
+		}
+		new = ft_substr(line[fd], 0, nlpos - line[fd]);
+		rest = ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(nlpos));
 		free(line[fd]);
 		line[fd] = rest;
 	}
 	return (new);
-
 }
 
 int	get_more(int fd, char **line)
@@ -61,18 +67,19 @@ int	get_more(int fd, char **line)
 	reret = read(fd, tmp, BUFFER_SIZE);
 	if (reret <= -1)
 	{
-		free(&tmp);
+		free(tmp);
 		return (0);
+	}
+	if (reret == 0)
+	{
+		free(tmp);
+		return (1);
 	}
 	tmp[reret] = '\0';
 	new = ft_strjoin(line[fd], tmp);
 	free(line[fd]);
 	free(tmp);
 	line[fd] = new;
-	if (reret == 0)
-	{
-		return (1);
-	}
 	return (2);
 }
 
