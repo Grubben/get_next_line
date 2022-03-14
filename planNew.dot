@@ -1,0 +1,34 @@
+
+digraph G {
+	size="8,6"; ratio=fill; node[fontsize=24];
+
+	get_next_line->newLine [label="if NULL"]
+	get_next_line->debrisLine [label="if with debris"]
+
+	newLine->debrisLine;
+
+	debrisLine->ft_strchr;
+
+	ft_strchr->final_prep [label="if \\n inside"];
+	ft_strchr->get_more [label="if no \\n inside"];
+
+	final_prep->new;
+	final_prep->rest;
+
+	get_more->debrisLine [label="if != 0"];
+	get_more->final_prep [label="if == 0"];
+
+	//no_n->malloc; no_n->read; no_n->free_ret; no_n->ft_substr; no_n->ft_strlen;
+	//no_n->free_chg; no_n->make_new;
+
+	//make_new->ft_strchr; make_new->ft_substr; make_new->ft_strjoin; make_new->free_chg;
+	//make_new->ft_strlen; make_new->free;
+
+	//subgraph "cluster_get_next_line" { label="get_next_line.c"; free_ret; free_chg;
+	//									make_new; no_n; get_next_line; }
+	
+	//subgraph "cluster_get_next_line_utils" { label="get_next_line_utils.c" ft_strlen; ft_strchr;
+	//										ft_substr; ft_strjoin;  }
+	
+	//subgraph "cluster_builtins" { label="builtins" malloc; read; free; }
+}
