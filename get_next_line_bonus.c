@@ -28,7 +28,6 @@ char	*new_line(int fd, char **line)
 	return (line[fd]);
 }
 
-
 char	*final_prep(int fd, char **line, char *nlpos)
 {
 	char	*new;
@@ -36,20 +35,19 @@ char	*final_prep(int fd, char **line, char *nlpos)
 
 	if (nlpos == NULL)
 	{
-		new = ft_substr(line[fd], 0, ft_strlen(line[fd])); //copy
+		new = ft_substr(line[fd], 0, ft_strlen(line[fd]));
 		free(line[fd]);
 		line[fd] = NULL;
 	}
 	else
 	{
-		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1) // if nl is last char of string
+		if ((size_t)(nlpos - line[fd]) == ft_strlen(line[fd]) - 1)
 		{
-			new = ft_substr(line[fd], 0, ft_strlen(line[fd])); //copy
+			new = ft_substr(line[fd], 0, ft_strlen(line[fd]));
 			free(line[fd]);
 			line[fd] = NULL;
 			return (new);
 		}
-		// else
 		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1);
 		rest = ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(nlpos));
 		free(line[fd]);
