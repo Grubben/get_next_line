@@ -6,7 +6,7 @@
 /*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 13:31:08 by amaria-d          #+#    #+#             */
-/*   Updated: 2022/02/27 18:03:41 by amaria-d         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:42:39 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*debris_line(int fd, char **line)
 			return (new);
 		}
 		if (tmp == 1)
-			return (debrisLine(fd, line));
+			return (debris_line(fd, line));
 	}
 	new = final_prep(fd, line, nlpos);
 	return (new);
@@ -119,6 +119,6 @@ char	*get_next_line(int fd)
 		if (new_line(fd, line) == NULL)
 			return (NULL);
 	}
-	new = debrisLine(fd, line);
+	new = debris_line(fd, line);
 	return (new);
 }
