@@ -27,14 +27,22 @@
 #  define MAX_FD 1024
 # endif
 
-char	*get_next_line_bns(int fd);
+char	*newLine(int fd, char **line)
 
-size_t	ft_strlen_bns(const char *s);
+char	*final_prep(int fd, char **line, char *nlpos)
 
-char	*ft_strchr_bns(const char *s, int c);
+int get_more(int fd, char **line)
 
-char	*ft_substr_bns(char const *s, unsigned int start, size_t len);
+char	*debrisLine(int fd, char **line)
 
-char	*ft_strjoin_bns(char const *s1, char const *s2);
+char	*get_next_line(int fd);
+
+size_t	ft_strlen(const char *s);
+
+char	*ft_strchr(const char *s, int c);
+
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
