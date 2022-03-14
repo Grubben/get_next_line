@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-char	*newLine(int fd, char **line)
+char	*new_line(int fd, char **line)
 {
 	ssize_t	reret;
 
@@ -27,7 +27,6 @@ char	*newLine(int fd, char **line)
 	line[fd][reret] = '\0';
 	return (line[fd]);
 }
-
 
 char	*final_prep(int fd, char **line, char *nlpos)
 {
@@ -84,7 +83,7 @@ int	get_more(int fd, char **line)
 	return (1);
 }
 
-char	*debrisLine(int fd, char **line)
+char	*debris_line(int fd, char **line)
 {
 	char	*nlpos;
 	char	*new;
@@ -98,16 +97,15 @@ char	*debrisLine(int fd, char **line)
 			return (NULL);
 		if (tmp == 0)
 		{
-			new = final_prep(fd, line, NULL); 
+			new = final_prep(fd, line, NULL);
 			return (new);
 		}
 		if (tmp == 1)
 			return (debrisLine(fd, line));
 	}
 	new = final_prep(fd, line, nlpos);
-	return (new);	
+	return (new);
 }
-
 
 char	*get_next_line(int fd)
 {
@@ -118,7 +116,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (line[fd] == NULL)
 	{
-		if (newLine(fd, line) == NULL)
+		if (new_line(fd, line) == NULL)
 			return (NULL);
 	}
 	new = debrisLine(fd, line);
