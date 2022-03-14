@@ -27,6 +27,14 @@
 #  define MAX_FD 1024
 # endif
 
+char	*newLine(int fd, char **line)
+
+char	*final_prep(int fd, char **line, char *nlpos)
+
+int	get_more(int fd, char **line)
+
+char	*debrisLine(int fd, char **line)
+
 char	*get_next_line(int fd);
 
 size_t	ft_strlen(const char *s);
