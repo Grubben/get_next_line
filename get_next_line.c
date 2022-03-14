@@ -49,6 +49,7 @@ char	*final_prep(int fd, char **line, char *nlpos)
 			line[fd] = NULL;
 			return (new);
 		}
+		// else
 		new = ft_substr(line[fd], 0, nlpos - line[fd] + 1);
 		rest = ft_substr(line[fd], nlpos - line[fd] + 1, ft_strlen(nlpos));
 		free(line[fd]);
@@ -68,39 +69,39 @@ int	get_more(int fd, char **line)
 	if (reret <= -1)
 	{
 		free(tmp);
-		return (0);
+		return (-1);
 	}
 	if (reret == 0)
 	{
 		free(tmp);
-		return (1);
+		return (0);
 	}
 	tmp[reret] = '\0';
 	new = ft_strjoin(line[fd], tmp);
 	free(line[fd]);
 	free(tmp);
 	line[fd] = new;
-	return (2);
+	return (1);
 }
 
 char	*debrisLine(int fd, char **line)
 {
 	char	*nlpos;
 	char	*new;
-	int	tmp;
+	ssize_t	tmp;
 
 	nlpos = ft_strchr(line[fd], '\n');
 	if (nlpos == NULL)
 	{
 		tmp = get_more(fd, line);
-		if (tmp == 0)
+		if (tmp == -1)
 			return (NULL);
-		if (tmp == 1)
+		if (tmp == 0)
 		{
 			new = final_prep(fd, line, NULL); 
 			return (new);
 		}
-		if (tmp == 2)
+		if (tmp == 1)
 			return (debrisLine(fd, line));
 	}
 	new = final_prep(fd, line, nlpos);
