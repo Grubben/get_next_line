@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaria-d <amaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amaria-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 15:29:27 by amaria-d          #+#    #+#             */
-/*   Updated: 2021/12/28 17:41:18 by amaria-d         ###   ########.fr       */
+/*   Created: 2022/03/14 16:28:14 by amaria-d          #+#    #+#             */
+/*   Updated: 2022/03/14 16:28:43 by amaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@
 #  define MAX_FD 1024
 # endif
 
-char	*new_line(int fd, char **line)
+char	*new_line(int fd, char **line);
 
-char	*final_prep(int fd, char **line, char *nlpos)
+char	*final_prep(int fd, char **line, char *nlpos);
 
-int	get_more(int fd, char **line)
+int		get_more(int fd, char **line);
 
-char	*debris_line(int fd, char **line)
+char	*debris_line(int fd, char **line);
 
 char	*get_next_line(int fd);
 
